@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حساب تكلفة الشحن</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            appearance: textfield; /* إزالة الأسهم */
+            -moz-appearance: textfield; /* لدعم متصفح Firefox */
+        }
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none; /* إزالة الأسهم في متصفحات WebKit (مثل Chrome و Safari) */
+            margin: 0;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>حساب تكلفة الشحن</h1>
+    <form id="shippingForm">
+        <label for="weight">الوزن بالكيلوجرام:</label>
+        <input type="number" id="weight" step="0.01" required>
+
+        <label for="length">الطول بالسنتيمتر:</label>
+        <input type="number" id="length" required>
+
+        <label for="width">العرض بالسنتيمتر:</label>
+        <input type="number" id="width" required>
+
+        <label for="height">الارتفاع بالسنتيمتر:</label>
+        <input type="number" id="height" required>
+
+        <button type="button" id="calculateButton" onclick="calculateShippingCost()">احسب التكلفة</button>
+    </form>
+
+    <div id="result" class="result" style="display: none;">
+        <p><strong>نوع الطرد:</strong> <span id="packageType"></span></p>
+        <p><strong>الوزن الفعلي:</strong> <span id="actualWeight"></span> كيلوغرام</p>
+        <p><strong>الوزن الحجمي:</strong> <span id="volumeWeight"></span> كيلوغرام</p>
+        <p><strong>الوزن القابل للشحن:</strong> <span id="chargeableWeight"></span> كيلوغرام</p>
+        <p><strong>رسوم الشحن:</strong> <span id="shippingCost"></span> ريال سعودي</p>
+    </div>
+
+    <script>
+        function roundToNearest50(weight) {
+            return Math.round(weight / 0.05) * 0.05;
+        }
+
+        function calculateShippingCost() {
+            // الحصول على قيم الإدخال من المستخدم
+            const weight = parseFloat(document.getElementById('weight').value);
+            const length = parseFloat(document.getElementById('length').value);
+            const width = parseFloat(document.getElementById('width').value);
+            const height = parseFloat(document.getElementById('height').value);
+
+            // التحقق من صحة الإدخال
+            if (isNaN(weight) || isNaN(length) || isNaN(width) || isNaN(height)) {
+                alert("يرجى إدخال قيم عددية صالحة.");
+                return;
+            }
+
+            // استخدام الوزن الفعلي كما هو بدون إضافة وزن التغليف
+            let actualWeight = weight;
+
+            // حساب الوزن الحجمي
+            let volumeWeight = (length * width * height) / 5000;
+
+            // تقريب الأوزان إلى أقرب مضاعف لـ 50 جرام
+            actualWeight = roundToNearest50(actualWeight);
+            volumeWeight = roundToNearest50(volumeWeight);
+
+            // تحديد الوزن القابل للشحن (الأكبر بين الوزن الفعلي والوزن الحجمي)
+            const chargeableWeight = Math.max(actualWeight, volumeWeight);
+
+            // تحديد نوع الطرد بناءً على الأبعاد والوزن
+            let packageType = "كبير الحجم";
+            if (length <= 45 && width <= 34 && height <= 26 && weight <= 12) {
+                packageType = "قياسي";
+            }
+
+            // جدول الأسعار بناءً على نوع الطرد
+            let shippingCost = 0;
+            if (packageType === "قياسي") {
+                if (chargeableWeight <= 0.25) {
+                    shippingCost = 17;
+                } else if (chargeableWeight <= 0.5) {
+                    shippingCost = 17.5;
+                } else if (chargeableWeight <= 1.0) {
+                    shippingCost = 18.5;
+                } else if (chargeableWeight <= 1.5) {
+                    shippingCost = 19.5;
+                } else if (chargeableWeight <= 2.0) {
+                    shippingCost = 20.5;
+                } else if (chargeableWeight <= 3.0) {
+                    shippingCost = 27.0;
+                } else if (chargeableWeight <= 12.0) {
+                    shippingCost = 27 + Math.floor((chargeableWeight - 3)) * 1;
+                }
+            } else if (packageType === "كبير الحجم") {
+                if (chargeableWeight <= 1.0) {
+                    shippingCost = 26.5;
+                } else if (chargeableWeight <= 2) {
+                    shippingCost = 27.5;
+                } else if (chargeableWeight <= 10.0) {
+                    shippingCost = 27.5 + Math.floor((chargeableWeight - 2)) * 1;
+                } else if (chargeableWeight <= 15) {
+                    shippingCost = 39.0;
+                } else if (chargeableWeight <= 20) {
+                    shippingCost = 43.0;
+                } else if (chargeableWeight <= 25) {
+                    shippingCost = 47.0;
+                } else if (chargeableWeight <= 30) {
+                    shippingCost = 51.0;
+                } else {
+                    shippingCost = 51.0 + Math.floor((chargeableWeight - 30)) * 1;
+                }
+            }
+
+            // عرض النتائج
+            document.getElementById('packageType').textContent = packageType;
+            document.getElementById('actualWeight').textContent = actualWeight.toFixed(2);
+            document.getElementById('volumeWeight').textContent = volumeWeight.toFixed(2);
+            document.getElementById('chargeableWeight').textContent = chargeableWeight.toFixed(2);
+            document.getElementById('shippingCost').textContent = shippingCost.toFixed(2);
+
+            // إظهار النتائج
+            document.getElementById('result').style.display = 'block';
+        }
+
+        // إضافة التنقل بين الحقول عند الضغط على Enter
+        document.querySelectorAll('input[type="number"]').forEach((input, index, inputs) => {
+            input.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault(); // منع السلوك الافتراضي للمفتاح Enter
+
+                    // إذا كان هذا الحقل ليس الأخير، انتقل إلى الحقل التالي
+                    if (index < inputs.length - 1) {
+                        inputs[index + 1].focus();
+                    } else {
+                        // إذا كان هذا الحقل الأخير، اضغط على زر "احسب التكلفة"
+                        document.getElementById('calculateButton').click();
+                    }
+                }
+            });
+        });
+
+        // حساب التكلفة تلقائيًا عند تعديل أي حقل إذا كانت جميع الحقول تحتوي على قيم
+        document.querySelectorAll('input[type="number"]').forEach(input => {
+            input.addEventListener('input', () => {
+                const weight = document.getElementById('weight').value;
+                const length = document.getElementById('length').value;
+                const width = document.getElementById('width').value;
+                const height = document.getElementById('height').value;
+
+                // التحقق مما إذا كانت جميع الحقول تحتوي على قيم
+                if (weight && length && width && height) {
+                    calculateShippingCost();
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
