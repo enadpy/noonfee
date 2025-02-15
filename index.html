@@ -86,7 +86,7 @@
         <p><strong>رسوم الشهرية للغير قابل للبيع:</strong> <span id="nonSellableMonthlyCost"></span> ريال سعودي</p>
         <p><strong>رسوم إزالة المخزون (طلب توصيل من الرياض):</strong> <span id="removalRiyadhDeliveryCost"></span> ريال سعودي <span id="riyadhNote"></span></p>
         <p><strong>رسوم إزالة المخزون (طلب توصيل من جدة):</strong> <span id="removalJeddahDeliveryCost"></span> ريال سعودي <span id="jeddahNote"></span></p>
-        <p><strong>رسوم إزالة المخزون (طلب تحصيل من الرياض):</strong> <span id="removalRiyadhCollectionCost"></span> ريال سعودي <span id="collectionNote">(الحد الأدنى للشحنة 15 ريال)</span></p>
+        <p><strong>رسوم إزالة المخزون (طلب تحصيل من الرياض):</strong> <span id="removalRiyadhCollectionCost"></span> ريال سعودي <span id="collectionNote"></span></p>
     </div>
     <script>
         function calculateShippingCost() {
@@ -243,7 +243,7 @@
             document.getElementById('removalJeddahDeliveryCost').textContent = removalJeddahDeliveryCost.toFixed(2);
             document.getElementById('jeddahNote').textContent = jeddahNote;
             document.getElementById('removalRiyadhCollectionCost').textContent = removalRiyadhCollectionCost.toFixed(2);
-            document.getElementById('jeddahNote').textContent = collectionNote; 
+            document.getElementById('collectionNote').textContent = collectionNote; 
             // إظهار النتائج
             document.getElementById('result').style.display = 'block';
         }
