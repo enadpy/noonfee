@@ -225,8 +225,8 @@
             const jeddahNote = removalJeddahDeliveryCost < 15 ? "(الحد الأدنى للشحنة 15 ريال)" : "";
 
             // حساب رسوم إزالة المخزون (طلب تحصيل من الرياض)
-            const removalRiyadhCollectionCost = pieces * 0.3 + cubicFeet;
-
+            const removalRiyadhCollectionCost = pieces * 0.3 + cubicFeet
+            const collectionNote = removalRiyadhCollectionCost < 15 ? "(الحد الأدنى للشحنة 15 ريال)" : "";
             // عرض النتائج
             document.getElementById('directPackageType').textContent = directPackageType;
             document.getElementById('premiumPackageType').textContent = premiumPackageType;
