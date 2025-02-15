@@ -228,11 +228,6 @@
             const removalRiyadhCollectionCost = pieces * 0.3 + cubicFeet
             const collectionNote = removalRiyadhCollectionCost < 15 ? "(الحد الأدنى للشحنة 15 ريال)" : "";
             // عرض النتائج
-            document.getElementById('directPackageType').textContent = directPackageType;
-            document.getElementById('premiumPackageType').textContent = premiumPackageType;
-            document.getElementById('actualWeight').textContent = weight.toFixed(2);
-            document.getElementById('volumeWeight').textContent = volumeWeight.toFixed(2);
-            document.getElementById('chargeableWeight').textContent = chargeableWeight.toFixed(2);
             document.getElementById('premiumShippingCost').textContent = premiumShippingCost.toFixed(2);
             document.getElementById('directShippingCost').textContent = directShippingCost.toFixed(2);
             document.getElementById('monthlyStorageCost').textContent = monthlyStorageCost.toFixed(2);
