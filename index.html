@@ -262,7 +262,7 @@
                 const length = document.getElementById('length').value;
                 const width = document.getElementById('width').value;
                 const height = document.getElementById('height').value;
-                const pieces = document.getElementById('pieces').value;|| 1;
+                const pieces = document.getElementById('pieces').value|| 1;// الافتراضي 1 في حال عدم الإدخال
 
                 if (weight !== "" && length !== "" && width !== "" && height !== "" && pieces !== "") {
                     calculateShippingCost();
