@@ -1,1 +1,230 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الصفحة الرئيسية</title>
+</head>
+<body>
+    <h1>مرحبًا! هذه الصفحة الرئيسية</h1>
+    <a href="index.html">انتقل إلى الصفحة الثانية</a>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>تسعير نون</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      direction: rtl;
+      margin: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+    input[type="number"], select {
+      width: 40%;
+      height: 40px;
+      margin-bottom: 20px;
+      padding: 10px;
+      box-sizing: border-box;
+      appearance: textfield; /* إزالة الأسهم */
+      -moz-appearance: textfield; /* Firefox */
+    }
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    button {
+      width: 10%;
+      height: 40px;
+      background-color: #4CAF50;
+      color: #fff;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #3e8e41;
+    }
+    #result {
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+    }
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+    th, td {
+      padding: 10px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>تسعير نون</h1>
+  <form id="pricingForm">
+    <label for="offerAmount">مبلغ العرض:</label>
+    <input type="number" id="offerAmount" required>
+
+    <label for="deliveryFees">رسوم التوصيل:</label>
+    <input type="number" id="deliveryFees" required>
+
+    <label for="cost">التكلفة:</label>
+    <input type="number" id="cost" required>
+    
+    <label for="productType">نوع المنتج:</label>
+    <select id="productType">
+      <option value="cosmetics">مستحضرات التجميل والصحة</option>
+      <option value="hair">العناية بالشعر والشخصية</option>
+      <option value="games">الألعاب</option>
+      <option value="childPerfumes">منتج الطفل والعطور</option>
+      <option value="homeKitchen">منزل مطبخ</option>
+      <option value="mobileAccessories">إكسسوارات جوال وساعات ونظارات</option>
+      <option value="fashionJewelry">للأزياء والمجوهرات</option>
+      <option value="sports">رياضة</option>
+      <option value="officeSupplies">أدوات مكتبية</option>
+    </select>
+
+    <button id="calculateButton">احسب الربح</button>
+  </form>
+  
+  <div id="result"></div>
+  
+  <script>
+    const calculateButton = document.getElementById('calculateButton');
+    const offerAmountInput = document.getElementById('offerAmount');
+    const deliveryFeesInput = document.getElementById('deliveryFees');
+    const costInput = document.getElementById('cost');
+    const productTypeSelect = document.getElementById('productType');
+    const resultDiv = document.getElementById('result');
+
+    function calculatePricing() {
+      const offerAmount = parseFloat(offerAmountInput.value);
+      const deliveryFees = parseFloat(deliveryFeesInput.value);
+      const cost = parseFloat(costInput.value)||0;// الافتراضي 0 في حال عدم الإدخال
+      const productType = productTypeSelect.value;
+
+      if (isNaN(offerAmount) || isNaN(deliveryFees) || isNaN(cost)) {
+        resultDiv.innerText = "يرجى ملء جميع الحقول بشكل صحيح.";
+        return;
+      }
+
+      let commission = 0;
+      switch(productType) {
+        case 'cosmetics': // مستحضرات التجميل والصحة
+          commission = offerAmount * 0.09;
+          break;
+        case 'hair': // العناية بالشعر والشخصية
+          commission = offerAmount > 50 ? offerAmount * 0.12 : offerAmount * 0.08;
+          break;
+        case 'games': // الألعاب
+          commission = offerAmount * 0.13;
+          break;
+        case 'childPerfumes': // منتج الطفل والعطور
+          commission = offerAmount * 0.15;
+          break;
+        case 'homeKitchen': // منزل مطبخ
+          commission = offerAmount * 0.13;
+          break;
+        case 'mobileAccessories': // إكسسوارات جوال وساعات ونظارات
+          commission = offerAmount > 50 ? offerAmount * 0.15 : offerAmount * 0.20;
+          break;
+        case 'fashionJewelry': // للأزياء والمجوهرات
+          commission = offerAmount * 0.27;
+          break;
+        case 'sports': // رياضة
+          commission = offerAmount > 30 ? offerAmount * 0.13 : offerAmount * 0.20;
+          break;
+        case 'officeSupplies': // أدوات مكتبية
+          commission = offerAmount * 0.12;
+          break;
+        default:
+          commission = 0;
+      }
+
+      const tax = offerAmount * 15 / 115;
+      const zakat = (((offerAmount * 100 / 115) / 8) + tax) * 2.5 / 100;
+      const profit = offerAmount - commission - tax - deliveryFees - cost - zakat;
+
+      // الحصول على نص نوع المنتج من القائمة
+      const productTypeText = productTypeSelect.options[productTypeSelect.selectedIndex].text;
+
+      resultDiv.innerHTML = `
+        <table>
+          <tr>
+            <th>نوع المنتج</th>
+            <th>الربح</th>
+            <th>الزكاة</th>
+            <th>العمولة</th>
+            <th>الضريبة</th>
+          </tr>
+          <tr>
+            <td>${productTypeText}</td>
+            <td>${profit.toFixed(2)}</td>
+            <td>${zakat.toFixed(2)}</td>
+            <td>${commission.toFixed(2)}</td>
+            <td>${tax.toFixed(2)}</td>
+          </tr>
+        </table>
+      `;
+    }
+
+    // استدعاء الدالة عند النقر على الزر
+    calculateButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      calculatePricing();
+    });
+     // السماح بالتنقل بين الحقول باستخدام الأسهم مع منع زيادة أو نقصان القيم
+        document.querySelectorAll('input[type="number"]').forEach((input, index, inputs) => {
+            input.addEventListener("keydown", (event) => {
+                if (event.key === "ArrowUp") {
+                    event.preventDefault();
+                    if (index > 0) {
+                        inputs[index - 1].focus(); // الانتقال إلى الحقل السابق
+                    }
+                } else if (event.key === "ArrowDown") {
+                    event.preventDefault();
+                    if (index < inputs.length - 1) {
+                        inputs[index + 1].focus(); // الانتقال إلى الحقل التالي
+                    }
+                }
+            });
+        });
+
+    // التنقل بين الحقول باستخدام زر Enter
+    document.querySelectorAll('input, select').forEach((input, index, inputs) => {
+      input.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+          event.preventDefault();
+          if (index < inputs.length - 1) {
+            inputs[index + 1].focus();
+          } else {
+            calculateButton.click();
+          }
+        }
+      });
+    });
+
+    // الحساب التلقائي عند تغيير أي حقل
+    document.querySelectorAll('input, select').forEach(input => {
+      input.addEventListener('input', () => {
+        if (offerAmountInput.value && deliveryFeesInput.value && costInput.value) {
+          calculatePricing();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
 
