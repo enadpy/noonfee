@@ -239,14 +239,23 @@
             // إظهار النتائج
             document.getElementById('result').style.display = 'block';
         }
-          // منع زيادة أو نقصان القيم عند الضغط على الأسهم في الكيبورد
-        document.querySelectorAll('input[type="number"]').forEach(input => {
+           // السماح بالتنقل بين الحقول باستخدام الأسهم مع منع زيادة أو نقصان القيم
+        document.querySelectorAll('input[type="number"]').forEach((input, index, inputs) => {
             input.addEventListener("keydown", (event) => {
-                if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+                if (event.key === "ArrowUp") {
                     event.preventDefault();
+                    if (index > 0) {
+                        inputs[index - 1].focus(); // الانتقال إلى الحقل السابق
+                    }
+                } else if (event.key === "ArrowDown") {
+                    event.preventDefault();
+                    if (index < inputs.length - 1) {
+                        inputs[index + 1].focus(); // الانتقال إلى الحقل التالي
+                    }
                 }
             });
         });
+
 
         // التنقل بين الخانات باستخدام زر Enter
         document.querySelectorAll('input[type="number"]').forEach((input, index, inputs) => {
