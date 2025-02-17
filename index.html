@@ -263,7 +263,7 @@
 
         // الحساب التلقائي عند تعديل أي خانة
         document.querySelectorAll('input[type="number"]').forEach(input => {
-            input.addEventListener('input', () => {
+            input.addEventListener('change', () => {
                 // التأكد من أن جميع الخانات تحتوي على قيمة قبل الحساب
                 const weight = document.getElementById('weight').value;
                 const length = document.getElementById('length').value;
