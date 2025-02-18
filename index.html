@@ -110,11 +110,11 @@
 
     function calculatePricing() {
       const offerAmount = parseFloat(offerAmountInput.value);
-      const deliveryFees = parseFloat(deliveryFeesInput.value);
+      const deliveryFees = parseFloat(deliveryFeesInput.value)||0;// الافتراضي 0 في حال عدم الإدخال
       const cost = parseFloat(costInput.value)||0;// الافتراضي 0 في حال عدم الإدخال
       const productType = productTypeSelect.value;
 
-      if (isNaN(offerAmount) || isNaN(deliveryFees)) {
+      if (isNaN(offerAmount) {
         resultDiv.innerText = "يرجى ملء جميع الحقول بشكل صحيح.";
         return;
       }
@@ -151,7 +151,7 @@
         default:
           commission = 0;
       }
-
+      const notax = offerAmount * 100 / 115;
       const tax = offerAmount * 15 / 115;
       const zakat = (((offerAmount * 100 / 115) / 8) + tax) * 2.5 / 100;
       const profit = offerAmount - commission - tax - deliveryFees - cost - zakat;
@@ -167,6 +167,7 @@
             <th>الزكاة</th>
             <th>العمولة</th>
             <th>الضريبة</th>
+            <th>السعر قبل الضريبة</th> 
           </tr>
           <tr>
             <td>${productTypeText}</td>
@@ -174,6 +175,7 @@
             <td>${zakat.toFixed(2)}</td>
             <td>${commission.toFixed(2)}</td>
             <td>${tax.toFixed(2)}</td>
+            <td>${notax.toFixed(2)}</td>
           </tr>
         </table>
       `;
@@ -218,7 +220,7 @@
     // الحساب التلقائي عند تغيير أي حقل
     document.querySelectorAll('input, select').forEach(input => {
       input.addEventListener('input', () => {
-        if (offerAmountInput.value && deliveryFeesInput.value ) {
+        if (offerAmountInput.value ) {
           calculatePricing();
         }
       });
