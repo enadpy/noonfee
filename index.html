@@ -88,8 +88,8 @@
     
     <label for="productType">نوع المنتج:</label>
     <select id="productType">
-      <option value="cosmetics">مستحضرات التجميل والصحة</option>
       <option value="hair">العناية بالشعر والشخصية</option>
+      <option value="cosmetics">مستحضرات التجميل والصحة</option>
       <option value="games">الألعاب</option>
       <option value="childPerfumes">منتج الطفل والعطور</option>
       <option value="homeKitchen">منزل مطبخ</option>
@@ -121,11 +121,11 @@
 
       let commission = 0;
       switch(productType) {
-        case 'cosmetics': // مستحضرات التجميل والصحة
-          commission = offerAmount * 0.09;
-          break;
-        case 'hair': // العناية بالشعر والشخصية
+       case 'hair': // العناية بالشعر والشخصية
           commission = offerAmount > 50 ? offerAmount * 0.12 : offerAmount * 0.08;
+          break;
+      case 'cosmetics': // مستحضرات التجميل والصحة
+          commission = offerAmount * 0.09;
           break;
         case 'games': // الألعاب
           commission = offerAmount * 0.13;
