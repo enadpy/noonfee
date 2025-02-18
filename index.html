@@ -225,14 +225,36 @@
         console.log('Service Worker Registration Failed!', error);
       });
   }
-    // الحساب التلقائي عند تغيير أي حقل
-    document.querySelectorAll('input, select').forEach(input => {
-      input.addEventListener('input', () => {
-        if (offerAmountInput.value ) {
-          calculatePricing();
-        }
-      });
-    });
+   // الحساب التلقائي عند تغيير أي حقل
+document.querySelectorAll('input, select').forEach(input => {
+  input.addEventListener('input', () => {
+    if (offerAmountInput.value.trim() === "") {
+      resultDiv.innerHTML = `
+        <table>
+          <tr>
+            <th>نوع المنتج</th>
+            <th>الربح</th>
+            <th>الزكاة</th>
+            <th>العمولة</th>
+            <th>الضريبة</th>
+            <th>السعر قبل الضريبة</th> 
+          </tr>
+          <tr>
+            <td>${productTypeSelect.options[productTypeSelect.selectedIndex].text}</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+          </tr>
+        </table>
+      `;
+    } else {
+      calculatePricing();
+    }
+  });
+});
+
   </script>
 </body>
 </html>
