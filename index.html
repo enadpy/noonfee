@@ -218,7 +218,7 @@
     // الحساب التلقائي عند تغيير أي حقل
     document.querySelectorAll('input, select').forEach(input => {
       input.addEventListener('input', () => {
-        if (offerAmountInput.value && deliveryFeesInput.value && costInput.value) {
+        if (offerAmountInput.value && deliveryFeesInput.value ) {
           calculatePricing();
         }
       });
