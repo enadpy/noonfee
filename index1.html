@@ -12,70 +12,98 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رسوم نون</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 20px;
-            background-color: #f9f9f9;
-            font-size: 20px;
-        }
-        h1 {
-            color: #333;
-            font-size: 25px;
-        }
-        form {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
-        input[type="number"] {
-            width: 50%;
-            padding: 8px;
-            margin-bottom: 16px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            appearance: textfield; /* إزالة الأسهم */
-            -moz-appearance: textfield; /* لدعم Firefox */
-        }
-        input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button {
-            -webkit-appearance: none; /* إزالة الأسهم في متصفحات WebKit */
-            margin: 0;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 20px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .result {
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #e9ecef;
-            border-radius: 4px;
-            font-size: 30px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>رسوم نون</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      padding: 20px;
+      background-color: #f9f9f9;
+      font-size: 20px;
+    }
+    h1 {
+      color: #333;
+      font-size: 20px;
+    }
+    /* تنسيق الحاوية التي تحتوي على النموذج والنتائج */
+    .container {
+      display: flex;
+      flex-direction: row-reverse; /* يجعل النموذج على اليمين والنتائج على اليسار */
+      justify-content: space-between;
+      gap: 20px;
+    }
+    /* تنسيق نموذج الإدخال */
+    .form-container {
+      flex: 1;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    form label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+    form input[type="number"] {
+      width: 50%;
+      padding: 8px;
+      margin-bottom: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      appearance: textfield; /* إزالة الأسهم */
+      -moz-appearance: textfield; /* لدعم Firefox */
+    }
+    form input[type="number"]::-webkit-inner-spin-button,
+    form input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none; /* إزالة الأسهم في متصفحات WebKit */
+      margin: 0;
+    }
+    form button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 20px;
+    }
+    form button:hover {
+      background-color: #0056b3;
+    }
+    /* تنسيق منطقة النتائج */
+    .result-container {
+      flex: 1;
+      padding: 20px;
+      background-color: #e9ecef;
+      border-radius: 4px;
+      font-size: 30px;
+      height: fit-content; /* لتقليل المسافة إذا كانت النتائج أقل من النموذج */
+    }
+  </style>
 </head>
 <body>
-    <h1>رسوم نون</h1>
-    <form id="shippingForm">
+  <h1>رسوم نون</h1>
+  <div class="container">
+    <!-- منطقة عرض النتائج -->
+    <div class="result-container">
+      <div id="result" style="display: none;">
+        <p><strong>رسوم التوصيل المميز:</strong> <span id="premiumShippingCost"></span> ريال سعودي</p>
+        <p><strong>رسوم التوصيل المباشر:</strong> <span id="directShippingCost"></span> ريال سعودي</p>
+        <p><strong>رسوم التخزين الشهرية:</strong> <span id="monthlyStorageCost"></span> ريال سعودي</p>
+        <p><strong>رسوم التخزين طويل المدى:</strong> <span id="longTermStorageCost"></span> ريال سعودي</p>
+        <p><strong>رسوم الشهرية للغير قابل للبيع:</strong> <span id="nonSellableMonthlyCost"></span> ريال سعودي</p>
+        <p><strong>رسوم إزالة المخزون (طلب توصيل من الرياض):</strong> <span id="removalRiyadhDeliveryCost"></span> ريال سعودي <span id="riyadhNote"></span></p>
+        <p><strong>رسوم إزالة المخزون (طلب توصيل من جدة):</strong> <span id="removalJeddahDeliveryCost"></span> ريال سعودي <span id="jeddahNote"></span></p>
+        <p><strong>رسوم إزالة المخزون (طلب تحصيل من الرياض):</strong> <span id="removalRiyadhCollectionCost"></span> ريال سعودي <span id="collectionNote"></span></p>
+      </div>
+    </div>
+
+    <!-- نموذج الإدخال -->
+    <div class="form-container">
+      <form id="shippingForm">
         <label for="weight">الوزن بالكيلوجرام:</label>
         <input type="number" id="weight" step="0.01" required>
         <label for="length">الطول بالسنتيمتر:</label>
@@ -87,17 +115,9 @@
         <label for="pieces">عدد القطع:</label>
         <input type="number" id="pieces" required>
         <button type="button" id="calculateButton" onclick="calculateShippingCost()">احسب الرسوم</button>
-    </form>
-    <div id="result" class="result" style="display: none;">
-        <p><strong>رسوم التوصيل المميز:</strong> <span id="premiumShippingCost"></span> ريال سعودي</p>
-        <p><strong>رسوم التوصيل المباشر:</strong> <span id="directShippingCost"></span> ريال سعودي</p>
-        <p><strong>رسوم التخزين الشهرية:</strong> <span id="monthlyStorageCost"></span> ريال سعودي</p>
-        <p><strong>رسوم التخزين طويل المدى:</strong> <span id="longTermStorageCost"></span> ريال سعودي</p>
-        <p><strong>رسوم الشهرية للغير قابل للبيع:</strong> <span id="nonSellableMonthlyCost"></span> ريال سعودي</p>
-        <p><strong>رسوم إزالة المخزون (طلب توصيل من الرياض):</strong> <span id="removalRiyadhDeliveryCost"></span> ريال سعودي <span id="riyadhNote"></span></p>
-        <p><strong>رسوم إزالة المخزون (طلب توصيل من جدة):</strong> <span id="removalJeddahDeliveryCost"></span> ريال سعودي <span id="jeddahNote"></span></p>
-        <p><strong>رسوم إزالة المخزون (طلب تحصيل من الرياض):</strong> <span id="removalRiyadhCollectionCost"></span> ريال سعودي <span id="collectionNote"></span></p>
+      </form>
     </div>
+  </div>
     <script>
         function calculateShippingCost() {
             // الحصول على قيم الإدخال من المستخدم
