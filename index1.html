@@ -122,11 +122,11 @@
   <script>
     function calculateShippingCost() {
       // الحصول على قيم الإدخال من المستخدم
-      const weight = parseFloat(document.getElementById('weight').value) || 0;
-      const length = parseFloat(document.getElementById('length').value) || 0;
-      const width = parseFloat(document.getElementById('width').value) || 0;
-      const height = parseFloat(document.getElementById('height').value) || 0;
-      const pieces = parseInt(document.getElementById('pieces').value) || 0; // الافتراضي 1 في حال عدم الإدخال
+      const weight = parseFloat(document.getElementById('weight').value);
+      const length = parseFloat(document.getElementById('length').value);
+      const width = parseFloat(document.getElementById('width').value);
+      const height = parseFloat(document.getElementById('height').value);
+      const pieces = parseInt(document.getElementById('pieces').value) || 0; // الافتراضي 0 في حال عدم الإدخال
 
       // التحقق من صحة الإدخال
       if (isNaN(weight) || isNaN(length) || isNaN(width) || isNaN(height) || isNaN(pieces)) {
