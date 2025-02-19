@@ -120,19 +120,30 @@
   </div>
   
   <script>
-    function calculateShippingCost() {
-      // الحصول على قيم الإدخال من المستخدم
-      const weight = parseFloat(document.getElementById('weight').value);
-      const length = parseFloat(document.getElementById('length').value);
-      const width = parseFloat(document.getElementById('width').value);
-      const height = parseFloat(document.getElementById('height').value);
-      const pieces = parseInt(document.getElementById('pieces').value) || 0; // الافتراضي 0 في حال عدم الإدخال
+   function calculateShippingCost() {
+  // الحصول على قيم الإدخال من المستخدم
+  const weight = parseFloat(document.getElementById('weight').value) || 0;
+  const length = parseFloat(document.getElementById('length').value) || 0;
+  const width  = parseFloat(document.getElementById('width').value) || 0;
+  const height = parseFloat(document.getElementById('height').value) || 0;
+  const pieces = parseInt(document.getElementById('pieces').value) || 1;
 
-      // التحقق من صحة الإدخال
-      if (isNaN(weight) || isNaN(length) || isNaN(width) || isNaN(height) || isNaN(pieces)) {
-          alert("يرجى إدخال قيم عددية صالحة.");
-          return;
-      }
+  // شرط لتصفير النتائج إذا كان الوزن أو الطول أو العرض أو الارتفاع صفر
+  if (weight === 0 || length === 0 || width === 0 || height === 0) {
+    document.getElementById('premiumShippingCost').textContent = "0.00";
+    document.getElementById('directShippingCost').textContent  = "0.00";
+    document.getElementById('monthlyStorageCost').textContent  = "0.00";
+    document.getElementById('longTermStorageCost').textContent   = "0.00";
+    document.getElementById('nonSellableMonthlyCost').textContent= "0.00";
+    document.getElementById('removalRiyadhDeliveryCost').textContent = "0.00";
+    document.getElementById('riyadhNote').textContent            = "";
+    document.getElementById('removalJeddahDeliveryCost').textContent = "0.00";
+    document.getElementById('jeddahNote').textContent              = "";
+    document.getElementById('removalRiyadhCollectionCost').textContent = "0.00";
+    document.getElementById('collectionNote').textContent            = "";
+    document.getElementById('result').style.display = 'block';
+    return;
+  }
 
       // حساب الوزن الحجمي
       const volumeWeight = (length * width * height) / 5000;
@@ -340,7 +351,7 @@
           const length = document.getElementById('length').value;
           const width = document.getElementById('width').value;
           const height = document.getElementById('height').value;
-          const pieces = document.getElementById('pieces').value || 0;
+          const pieces = document.getElementById('pieces').value ||1;
 
           if (weight !== "" && length !== "" && width !== "" && height !== "" && pieces !== "") {
               calculateShippingCost();
