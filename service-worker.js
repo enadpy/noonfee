@@ -2,6 +2,7 @@ const CACHE_NAME = 'noonfee-cache-v1';
 const FILES_TO_CACHE = [
   '/',
   '/index.html',
+  '/index1.html',
   '/styles.css',
   '/script.js'
 ];
