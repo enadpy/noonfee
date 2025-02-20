@@ -1,19 +1,9 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسعير نون</title>
-</head>
-<body>
-    <a href="index1.html">انتقل إلى الصفحة الثانيه</a>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="ar">
-<head>
   <meta charset="UTF-8">
-  <title>تسعير نون</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسعير نون</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -75,6 +65,9 @@
   </style>
 </head>
 <body>
+  <!-- رابط الانتقال إلى الصفحة الثانية -->
+  <a href="index1.html">انتقل إلى الصفحة الثانيه</a>
+
   <h1>تسعير نون</h1>
   <form id="pricingForm">
     <label for="offerAmount">مبلغ العرض:</label>
@@ -114,17 +107,16 @@
 
     function calculatePricing() {
       const offerAmount = parseFloat(offerAmountInput.value);
-      const deliveryFees = parseFloat(deliveryFeesInput.value)||0;// الافتراضي 0 في حال عدم الإدخال
-      const cost = parseFloat(costInput.value)||0;// الافتراضي 0 في حال عدم الإدخال
+      const deliveryFees = parseFloat(deliveryFeesInput.value) || 0; // الافتراضي 0 في حال عدم الإدخال
+      const cost = parseFloat(costInput.value) || 0; // الافتراضي 0 في حال عدم الإدخال
       const productType = productTypeSelect.value;
-
 
       let commission = 0;
       switch(productType) {
-       case 'hair': // العناية بالشعر والشخصية
+        case 'hair': // العناية بالشعر والشخصية
           commission = offerAmount > 50 ? offerAmount * 0.12 : offerAmount * 0.08;
           break;
-      case 'cosmetics': // مستحضرات التجميل والصحة
+        case 'cosmetics': // مستحضرات التجميل والصحة
           commission = offerAmount * 0.09;
           break;
         case 'games': // الألعاب
@@ -186,22 +178,23 @@
       e.preventDefault();
       calculatePricing();
     });
-     // السماح بالتنقل بين الحقول باستخدام الأسهم مع منع زيادة أو نقصان القيم
-        document.querySelectorAll('input[type="number"]').forEach((input, index, inputs) => {
-            input.addEventListener("keydown", (event) => {
-                if (event.key === "ArrowUp") {
-                    event.preventDefault();
-                    if (index > 0) {
-                        inputs[index - 1].focus(); // الانتقال إلى الحقل السابق
-                    }
-                } else if (event.key === "ArrowDown") {
-                    event.preventDefault();
-                    if (index < inputs.length - 1) {
-                        inputs[index + 1].focus(); // الانتقال إلى الحقل التالي
-                    }
-                }
-            });
-        });
+
+    // السماح بالتنقل بين الحقول باستخدام الأسهم مع منع زيادة أو نقصان القيم
+    document.querySelectorAll('input[type="number"]').forEach((input, index, inputs) => {
+      input.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowUp") {
+          event.preventDefault();
+          if (index > 0) {
+            inputs[index - 1].focus(); // الانتقال إلى الحقل السابق
+          }
+        } else if (event.key === "ArrowDown") {
+          event.preventDefault();
+          if (index < inputs.length - 1) {
+            inputs[index + 1].focus(); // الانتقال إلى الحقل التالي
+          }
+        }
+      });
+    });
 
     // التنقل بين الحقول باستخدام زر Enter
     document.querySelectorAll('input, select').forEach((input, index, inputs) => {
@@ -216,45 +209,47 @@
         }
       });
     });
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/service-worker.js')
-      .then((registration) => {
-        console.log('Service Worker Registered!', registration);
-      })
-      .catch((error) => {
-        console.log('Service Worker Registration Failed!', error);
-      });
-  }
-   // الحساب التلقائي عند تغيير أي حقل
-document.querySelectorAll('input, select').forEach(input => {
-  input.addEventListener('input', () => {
-    if (offerAmountInput.value.trim() === "") {
-      resultDiv.innerHTML = `
-        <table>
-          <tr>
-            <th>نوع المنتج</th>
-            <th>الربح</th>
-            <th>الزكاة</th>
-            <th>العمولة</th>
-            <th>الضريبة</th>
-            <th>السعر قبل الضريبة</th> 
-          </tr>
-          <tr>
-            <td>${productTypeSelect.options[productTypeSelect.selectedIndex].text}</td>
-            <td>0.00</td>
-            <td>0.00</td>
-            <td>0.00</td>
-            <td>0.00</td>
-            <td>0.00</td>
-          </tr>
-        </table>
-      `;
-    } else {
-      calculatePricing();
-    }
-  });
-});
 
+    // تسجيل Service Worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/service-worker.js')
+        .then((registration) => {
+          console.log('Service Worker Registered!', registration);
+        })
+        .catch((error) => {
+          console.log('Service Worker Registration Failed!', error);
+        });
+    }
+
+    // الحساب التلقائي عند تغيير أي حقل
+    document.querySelectorAll('input, select').forEach(input => {
+      input.addEventListener('input', () => {
+        if (offerAmountInput.value.trim() === "") {
+          resultDiv.innerHTML = `
+            <table>
+              <tr>
+                <th>نوع المنتج</th>
+                <th>الربح</th>
+                <th>الزكاة</th>
+                <th>العمولة</th>
+                <th>الضريبة</th>
+                <th>السعر قبل الضريبة</th> 
+              </tr>
+              <tr>
+                <td>${productTypeSelect.options[productTypeSelect.selectedIndex].text}</td>
+                <td>0.00</td>
+                <td>0.00</td>
+                <td>0.00</td>
+                <td>0.00</td>
+                <td>0.00</td>
+              </tr>
+            </table>
+          `;
+        } else {
+          calculatePricing();
+        }
+      });
+    });
   </script>
 </body>
 </html>
