@@ -113,15 +113,15 @@
   <script>
     function calculateShippingCost() {
       // الحصول على قيم الإدخال من المستخدم
-      const weight = parseFloat(document.getElementById('weight').value) || 0;
+      let weight = parseFloat(document.getElementById('weight').value) || 0;
       const length = parseFloat(document.getElementById('length').value) || 0;
       const width  = parseFloat(document.getElementById('width').value) || 0;
       const height = parseFloat(document.getElementById('height').value) || 0;
       const pieces = parseInt(document.getElementById('pieces').value) || 1;
-      
+
       // تقريب الوزن إلى أقرب 50 جرام (0.05 كجم)
       weight = Math.round(weight / 0.05) * 0.05;
-      
+
       // شرط لتصفير النتائج إذا كان الوزن أو الطول أو العرض أو الارتفاع صفر
       if (weight === 0 || length === 0 || width === 0 || height === 0) {
         document.getElementById('premiumShippingCost').textContent = "0.00";
@@ -140,11 +140,11 @@
       }
 
       // حساب الوزن الحجمي
-      const volumeWeight = (length * width * height) / 5000;
+      let volumeWeight = (length * width * height) / 5000;
       // تقريب الوزن الحجمي إلى أقرب 50 جرام
       volumeWeight = Math.round(volumeWeight / 0.05) * 0.05;
 
-      // تحديد الوزن القابل للشحن (الأكبر بين الوزن الفعلي والوزن الحجمي)
+      // تحديد الوزن القابل للشحن (الأكبر بين الوزن الفعلي والوزن الحجمي المرقب)
       const chargeableWeight = Math.max(weight, volumeWeight);
 
       // تحديد نوع طرد التوصيل المباشر بناءً على الأبعاد والوزن القابل للشحن
